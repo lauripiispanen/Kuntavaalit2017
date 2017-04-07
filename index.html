@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.js"></script>
+    <script src="main.js"></script>
+    <style type="text/css">
+      .tooltip {
+        position: absolute;
+        background-color: white;
+      }
+      .search-results {
+        opacity: 0;
+        transition: opacity 0.5s;
+        position: absolute;
+        background-color: white;
+        list-style-type: none;
+        cursor: pointer;
+      }
+      .search-box:focus + .search-results:not(:empty) {
+        opacity: 1;
+      }
+      #parties {
+        list-style-type: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="municipality-search" class="search-box" placeholder="Municipality"></input>
+      <ul id="municipality-options" class="search-results"></ul>
+    </div>
+    <div>
+      <input type="text" id="candidate-search" class="search-box" placeholder="Candidate"></input>
+      <ul id="candidate-options" class="search-results"></ul>
+    </div>
+    <div id="chart">
+    </div>
+    <ul id="parties">
+    </ul>
+  </body>
+</html>
