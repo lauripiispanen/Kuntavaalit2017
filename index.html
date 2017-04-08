@@ -9,18 +9,6 @@
         position: absolute;
         background-color: white;
       }
-      .search-results {
-        opacity: 0;
-        transition: opacity 0.5s;
-        position: absolute;
-        background-color: white;
-        list-style-type: none;
-        cursor: pointer;
-        z-index: 1000;
-      }
-      .search-box:focus + .search-results:not(:empty) {
-        opacity: 1;
-      }
       #parties {
         list-style-type: none;
         cursor: pointer;
@@ -40,12 +28,10 @@
         <div class="input-field col s12 m6">
           <label class="active" for="municipality-search">Etsi kunta</label>
           <input type="text" id="municipality-search" class="search-box validate" placeholder="(esim. Akaa)"></input>
-          <ul id="municipality-options" class="search-results collection"></ul>
         </div>
         <div class="input-field col s12 m6">
           <input type="text" id="candidate-search" class="search-box validate" placeholder="(esim. Virta)"></input>
           <label class="active" for="candidate-search">Etsi ehdokas</label>
-          <ul id="candidate-options" class="search-results collection"></ul>
         </div>
       </div>
       <div class="row">

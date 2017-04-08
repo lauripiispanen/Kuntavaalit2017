@@ -65,6 +65,7 @@
         })
         updateView(data)
         renderPartiesSelection(data)
+        updateCandidateAutocomplete(data)
       })
     }
 
@@ -116,46 +117,30 @@
 
     fetch()
 
-    municipalitySearchEl.addEventListener("keyup", function(e) {
-      renderMunicipalitySelection(e.target.value)
+    $(municipalitySearchEl).autocomplete({
+      data: objectify(municipalities),
+      onAutocomplete: function(value) {
+        selectedCity = value
+        fetch()
+      }
     })
 
-    function renderMunicipalitySelection(text) {
-      municipalityOptionsEl.innerHTML = ''
-      if (text.trim().length > 0) {
-        municipalities.filter(function(it) { return it.toLowerCase().indexOf(text.toLowerCase()) > -1 }).forEach(function(it) {
-          var li = document.createElement("li")
-          li.textContent = it
-          li.classList.add("collection-item")
-          municipalityOptionsEl.appendChild(li)
-        })
-      }
+    function updateCandidateAutocomplete(data) {
+      $(candidateSearchEl).autocomplete({
+        data: objectify(data.map(candidateBlurb)),
+        onAutocomplete: function(value) {
+          selectedCandidate = value
+          updateView(data)
+        }
+      })
     }
 
-    municipalityOptionsEl.addEventListener("click", function(e) {
-      selectedCity = e.target.textContent
-      municipalitySearchEl.value = selectedCity
-      fetch()
-    })
-
-    candidateSearchEl.addEventListener("keyup", function(e) {
-      var text = e.target.value
-      candidateOptionsEl.innerHTML = ''
-      if (text.trim().length > 0) {
-        data.filter(function(it) { return it.name.toLowerCase().indexOf(text.toLowerCase()) > -1 }).forEach(function(it) {
-          var li = document.createElement("li")
-          li.textContent = candidateBlurb(it)
-          li.classList.add("collection-item")
-          candidateOptionsEl.appendChild(li)
-        })
-      }
-    })
-
-    candidateOptionsEl.addEventListener("click", function(e) {
-      selectedCandidate = e.target.textContent
-      candidateSearchEl.value = selectedCandidate
-      updateView(data)
-    })
+    function objectify(list) {
+      return list.reduce(function(memo, it) {
+        memo[it] = null
+        return memo
+      }, {})
+    }
 
     function renderPartiesSelection(data) {
       partiesEl.innerHTML = ''
