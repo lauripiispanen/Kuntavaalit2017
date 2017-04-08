@@ -6,8 +6,8 @@
         height = 500,
         svg = d3.select("#chart")
                 .append("svg")
-                .attr("width", width)
-                .attr("height", height),
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 " + width + " " + height),
         data = [],
         selectedParty = null,
         selectedCity = "Helsinki",
@@ -126,6 +126,7 @@
         municipalities.filter(function(it) { return it.toLowerCase().indexOf(text.toLowerCase()) > -1 }).forEach(function(it) {
           var li = document.createElement("li")
           li.textContent = it
+          li.classList.add("collection-item")
           municipalityOptionsEl.appendChild(li)
         })
       }
@@ -133,6 +134,7 @@
 
     municipalityOptionsEl.addEventListener("click", function(e) {
       selectedCity = e.target.textContent
+      municipalitySearchEl.value = selectedCity
       fetch()
     })
 
@@ -143,6 +145,7 @@
         data.filter(function(it) { return it.name.toLowerCase().indexOf(text.toLowerCase()) > -1 }).forEach(function(it) {
           var li = document.createElement("li")
           li.textContent = candidateBlurb(it)
+          li.classList.add("collection-item")
           candidateOptionsEl.appendChild(li)
         })
       }
@@ -150,14 +153,19 @@
 
     candidateOptionsEl.addEventListener("click", function(e) {
       selectedCandidate = e.target.textContent
+      candidateSearchEl.value = selectedCandidate
       updateView(data)
     })
 
     function renderPartiesSelection(data) {
       partiesEl.innerHTML = ''
-      var parties = distinct(data.map(function(it) { return it.party }))
+      var parties = distinct(data.map(function(it) { return it.party })).sort()
       parties.forEach(function(party) {
         var li = document.createElement("li")
+        li.classList.add("collection-item")
+        if (party == selectedParty) {
+          li.classList.add("active")
+        }
         li.textContent = party
         partiesEl.appendChild(li)
       })
@@ -171,6 +179,7 @@
         selectedParty = party
       }
       updateView(data)
+      renderPartiesSelection(data)
     })
 
     function distinct(list) {
