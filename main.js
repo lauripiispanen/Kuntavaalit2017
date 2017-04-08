@@ -42,8 +42,9 @@
           return candidate.name + " (" + candidate.party + ")"
         },
         tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0),
+            .attr("class", "tooltip z-depth-4")
+            .style("opacity", 0)
+            .style("display", "none"),
         xValue = function(d) { return d.x },
         xScale = d3.scaleLinear().range([margin, width - margin]),
         xMap = function(d) { return xScale(xValue(d)) },
@@ -94,25 +95,28 @@
          .attr("cy", yMap)
          .style("fill", partyColorFill)
          .style("fill-opacity", 1e-6)
-         .on("mouseover", function(d) {
-             tooltip.transition()
-                  .duration(200)
-                  .style("opacity", .9)
-             tooltip.html(d.name + "<br/> (" + d.party + ")")
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px")
-         })
+         .on("mouseover", showTooltip)
          .on("mouseout", function(d) {
              tooltip.transition()
                   .duration(500)
                   .style("opacity", 0)
+                  .on("end", function() {
+                    tooltip.style("display", "none")
+                  })
          })
-         .on("click", function(d) {
-           selectedCandidate = candidateBlurb(d)
-           updateView(data)
-         })
+         .on("click", showTooltip)
          .transition()
              .style("fill-opacity", 1)
+    }
+
+    function showTooltip(d) {
+      tooltip.style("display", "block")
+           .transition()
+           .duration(200)
+           .style("opacity", 1)
+      tooltip.html(d.name + "<br/> (" + d.party + ")")
+           .style("left", (d3.event.pageX - 20) + "px")
+           .style("top", (d3.event.pageY + 10) + "px")
     }
 
     fetch()
