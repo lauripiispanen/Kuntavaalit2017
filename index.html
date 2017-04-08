@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style type="text/css">
@@ -39,12 +39,12 @@
       <div class="row">
         <div class="input-field col s12 m6">
           <label for="municipality-search">Etsi kunta (esim. Akaa)</label>
-          <input type="text" id="municipality-search" class="search-box"></input>
+          <input type="text" id="municipality-search" class="search-box validate"></input>
           <ul id="municipality-options" class="search-results collection"></ul>
         </div>
         <div class="input-field col s12 m6">
+          <input type="text" id="candidate-search" class="search-box validate"></input>
           <label for="candidate-search">Etsi ehdokas (esim. Virta)</label>
-          <input type="text" id="candidate-search" class="search-box"></input>
           <ul id="candidate-options" class="search-results collection"></ul>
         </div>
       </div>
